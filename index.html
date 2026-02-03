@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Camila</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #e8f5ff 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .contenedor-sobre {
+            position: relative;
+            width: 500px;
+            height: 320px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: height 0.8s ease 0.5s;
+        }
+
+        .contenedor-sobre.abierto {
+            height: 800px;
+        }
+
+        .sobre {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 320px;
+            background: linear-gradient(135deg, #fff5f8 0%, #ffffff 100%);
+            border: 3px solid #d4a5a5;
+            box-shadow: 0 15px 50px rgba(212, 165, 165, 0.3);
+            z-index: 2;
+            overflow: visible;
+        }
+
+        .sobre::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255, 182, 193, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .sobre-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 160px;
+            background: linear-gradient(180deg, rgba(255, 182, 193, 0.5) 0%, transparent 100%);
+            clip-path: polygon(0 0, 50% 130px, 100% 0);
+            transition: transform 0.6s ease;
+            transform-origin: top center;
+            z-index: 3;
+        }
+
+        .contenedor-sobre.abierto .sobre-flap {
+            transform: rotateX(180deg);
+        }
+
+        .sobre-contenido {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .sobre-sello {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            border: 3px solid #d4a5a5;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            background: white;
+            z-index: 2;
+        }
+
+        .nombre-destinatario {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #8b4565;
+            margin-bottom: 10px;
+        }
+
+        .instruccion {
+            font-size: 1em;
+            color: #b87591;
+            font-style: italic;
+        }
+
+        /* Carta que sale del sobre */
+        .carta {
+            position: absolute;
+            top: 250px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            height: 680px;
+            background: #fffef9;
+            border: 2px solid #d4a5a5;
+            border-left: 8px solid #ffb6c1;
+            box-shadow: 0 10px 40px rgba(139, 69, 101, 0.2);
+            padding: 40px 35px;
+            overflow-y: auto;
+            transition: top 1s ease 0.5s;
+            z-index: 1;
+        }
+
+        .contenedor-sobre:not(.abierto) .carta {
+            top: 250px;
+        }
+
+        .contenedor-sobre.abierto .carta {
+            top: 20px;
+        }
+
+        .carta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ffb6c1 0%, #ffc9d9 50%, #ffb6c1 100%);
+        }
+
+        .astromelia {
+            position: absolute;
+            bottom: 15px;
+            right: 25px;
+            font-size: 2.5em;
+            opacity: 0.3;
+            transform: rotate(-15deg);
+        }
+
+        .carta-header {
+            text-align: right;
+            font-size: 0.85em;
+            color: #b87591;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .carta-destinatario {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: #8b4565;
+            font-weight: bold;
+        }
+
+        .carta-cuerpo {
+            font-size: 0.95em;
+            line-height: 1.7;
+            color: #333;
+            text-align: justify;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .carta-cuerpo p {
+            margin-bottom: 15px;
+        }
+
+        .carta-cuerpo::before {
+            content: '🌸';
+            position: absolute;
+            top: -10px;
+            left: -20px;
+            font-size: 1.3em;
+            opacity: 0.4;
+        }
+
+        .carta-pregunta {
+            font-size: 1.15em;
+            text-align: center;
+            margin: 25px 0 20px 0;
+            color: #8b4565;
+            font-weight: bold;
+            padding: 12px;
+            background: rgba(255, 182, 193, 0.1);
+            border-left: 4px solid #ffb6c1;
+        }
+
+        .carta-firma {
+            text-align: right;
+            margin-top: 25px;
+            font-size: 1em;
+            color: #333;
+        }
+
+        .linea-firma {
+            width: 130px;
+            height: 1px;
+            background: #333;
+            margin-left: auto;
+            margin-bottom: 5px;
+        }
+
+        .botones {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 30px;
+            font-size: 0.95em;
+            border: 2px solid #d4a5a5;
+            background: white;
+            color: #8b4565;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #ffb6c1 0%, #ffc9d9 100%);
+            color: white;
+            border-color: #ffb6c1;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.3);
+        }
+
+        .respuesta {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff5f8 0%, #ffffff 100%);
+            border: 2px solid #ffb6c1;
+            border-radius: 5px;
+            animation: aparecer 0.5s ease-out;
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .respuesta p {
+            font-size: 1em;
+            color: #8b4565;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contenedor-sobre" id="contenedorSobre">
+        <!-- Carta que sale del sobre -->
+        <div class="carta">
+            <div class="carta-header">
+                Febrero 3, 2026
+            </div>
+
+            <div class="carta-destinatario">
+                Mi linda princesita,
+            </div>
+
+            <div class="carta-cuerpo">
+                <p>
+                    Hay momentos en la vida donde las palabras parecen insuficientes, pero aún así necesito
+                    intentarlo.
+                </p>
+                <p>
+                    Al dia de hoy me siento muy afortunado de haberte conocido y de haber compartido momentos lindos
+                    juntos. Cada conversación contigo me saca una sonrisa y me hace apreciar aún más la persona
+                    increíble que eres.
+                    Me haces muy feliz mi cielo!.
+
+                </p>
+                <p>
+                    No soy de hacer grandes gestos, pero lo que tengo planeado es porque eres especial para mi.
+                <br>
+                    Pdta: No sabia que si te gustaba en publico o algo mas privado asi que decidi hacerlo de la manera
+                    que mas tranquila posible.
+
+                    .
+                </p>
+            </div>
+
+            <div class="carta-pregunta">
+                ¿Aceptarías salir conmigo?
+            </div>
+
+            <div class="botones">
+                <button id="btnSi">Sí</button>
+                <button id="btnNo">No</button>
+            </div>
+
+            <div class="respuesta" id="respuesta"></div>
+
+            <div class="carta-firma">
+                <div class="linea-firma"></div>
+                Con cariño
+            </div>
+
+            <div class="astromelia" title="Astromelia">🌺</div>
+        </div>
+
+        <!-- Sobre -->
+        <div class="sobre">
+            <div class="sobre-flap"></div>
+            <div class="sobre-sello">💌</div>
+            <div class="sobre-contenido">
+                <div class="nombre-destinatario">Para: Camila Placido</div>
+                <div class="instruccion">Presiona para abrir</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const contenedorSobre = document.getElementById('contenedorSobre');
+        const btnSi = document.getElementById('btnSi');
+        const btnNo = document.getElementById('btnNo');
+        const respuesta = document.getElementById('respuesta');
+
+        // Abrir sobre y sacar la carta
+        contenedorSobre.addEventListener('click', (e) => {
+            // Si ya está abierto y se hace clic en un botón, no hacer nada más
+            if (e.target.tagName === 'BUTTON') {
+                e.stopPropagation();
+                return;
+            }
+            contenedorSobre.classList.toggle('abierto');
+        });
+
+        // Respuesta Sí
+        btnSi.addEventListener('click', (e) => {
+            e.stopPropagation();
+            respuesta.innerHTML = '<p>Me has hecho muy feliz con tu respuesta. 💕</p><p>Te escribiré pronto para coordinar todo.</p>';
+            respuesta.style.display = 'block';
+            btnSi.style.display = 'none';
+            btnNo.style.display = 'none';
+        });
+
+        // Respuesta No
+        btnNo.addEventListener('click', (e) => {
+            e.stopPropagation();
+            respuesta.innerHTML = '<p>Entiendo y respeto tu decisión.</p><p>Gracias por tomarte el tiempo de leer esto.</p>';
+            respuesta.style.display = 'block';
+            btnSi.style.display = 'none';
+            btnNo.style.display = 'none';
+        });
+    </script>
+</body>
+
+</html>
