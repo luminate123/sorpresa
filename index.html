@@ -286,103 +286,97 @@
         @media (max-width: 600px) {
             body {
                 padding: 10px;
-                align-items: flex-start;
-                padding-top: 5vh;
+                height: 100vh;
+                align-items: center; /* Centrar verticalmente */
+                overflow: hidden; /* Evitar scroll en el body */
             }
 
             .contenedor-sobre {
                 width: 100%;
-                height: 200px; /* Sobre más pequeño inicialmente */
+                height: 220px; /* Un poco más alto para el sobre cerrado */
+                transition: height 0.6s ease; /* Transición suave */
             }
 
             .contenedor-sobre.abierto {
-                height: 550px; /* Altura total máxima reducida */
+                height: 520px; /* Altura total reducida para que quepa en pantalla */
             }
 
             .sobre {
-                height: 200px;
+                height: 220px;
+                z-index: 5; /* Z-index base del sobre */
             }
 
             .sobre-flap {
-                height: 100px;
-                clip-path: polygon(0 0, 50% 90px, 100% 0);
+                height: 110px;
+                clip-path: polygon(0 0, 50% 100px, 100% 0);
             }
 
             /* Carta ajustada para caber en una pantalla */
             .carta {
-                top: 150px; /* Posición inicial */
-                width: 92%;
-                height: auto;
-                max-height: 520px; /* Altura máxima para evitar scroll en pantallas pequeñas */
+                top: 10px; 
+                width: 90%;
+                height: 480px; /* Altura fija que cabe en el contenedor abierto */
                 padding: 20px 15px;
-                overflow-y: hidden; /* Ocultar scroll si es posible */
+                overflow-y: auto; /* Permitir scroll suave dentro de la carta si es necesario */
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
+                z-index: 1; /* Inicialmente dentro del sobre */
+                transition: top 0.6s ease; /* Sincronizar con la apertura */
+            }
+
+            .contenedor-sobre:not(.abierto) .carta {
+                top: 15px; /* Escondida dentro */
+                transform: translateX(-50%) scale(0.9); /* Ligeramente más pequeña dentro */
+                opacity: 0;
             }
 
             .contenedor-sobre.abierto .carta {
-                top: 0; /* Sube completamente */
+                top: -20px; /* Sube un poco por encima del borde superior */
+                z-index: 20; /* IMPORTANTE: Se pone POR ENCIMA del sobre */
+                transform: translateX(-50%) scale(1);
+                transition: top 0.6s ease, z-index 0s linear 0.3s; /* Truco: cambia z-index a mitad de la animación */
             }
 
-            /* Reducción general de tamaños de fuente */
+            /* Ajustes de texto para móvil */
             .carta-header {
-                font-size: 0.7em;
-                margin-bottom: 10px;
-            }
-
-            .carta-destinatario {
-                font-size: 1em;
-                margin-bottom: 10px;
-            }
-
-            .carta-cuerpo {
-                font-size: 0.85em; /* Letra más pequeña */
-                line-height: 1.4;
+                font-size: 0.8em;
                 margin-bottom: 15px;
             }
 
+            .carta-destinatario {
+                font-size: 1.1em;
+                margin-bottom: 15px;
+            }
+
+            .carta-cuerpo {
+                font-size: 0.85em;
+                line-height: 1.5;
+                margin-bottom: 15px;
+                flex-grow: 1; /* Ocupa el espacio disponible */
+            }
+
             .carta-cuerpo p {
-                margin-bottom: 8px;
+                margin-bottom: 10px;
             }
 
             .carta-pregunta {
-                font-size: 1em;
-                margin: 10px 0;
-                padding: 8px;
+                font-size: 1.1em;
+                margin: 15px 0;
+                padding: 10px;
             }
 
             .botones {
                 margin-top: 10px;
-                gap: 10px;
-            }
-
-            button {
-                padding: 8px 20px;
-                font-size: 0.9em;
-            }
-
-            .carta-firma {
-                margin-top: 15px;
-                font-size: 0.9em;
-            }
-
-            .astromelia {
-                font-size: 1.5em;
-                bottom: 10px;
-                right: 10px;
+                padding-bottom: 10px;
             }
 
             .sobre-sello {
                 width: 50px;
                 height: 50px;
                 font-size: 1.5em;
-                top: 10px;
-                right: 10px;
-            }
-            
-            .nombre-destinatario {
-                font-size: 1.2em;
+                top: 15px;
+                right: 15px;
             }
         }
     </style>
