@@ -281,6 +281,110 @@
             line-height: 1.6;
             margin-bottom: 10px;
         }
+
+        /* Ajustes para móviles - Diseño compacto sin scroll */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+                align-items: flex-start;
+                padding-top: 5vh;
+            }
+
+            .contenedor-sobre {
+                width: 100%;
+                height: 200px; /* Sobre más pequeño inicialmente */
+            }
+
+            .contenedor-sobre.abierto {
+                height: 550px; /* Altura total máxima reducida */
+            }
+
+            .sobre {
+                height: 200px;
+            }
+
+            .sobre-flap {
+                height: 100px;
+                clip-path: polygon(0 0, 50% 90px, 100% 0);
+            }
+
+            /* Carta ajustada para caber en una pantalla */
+            .carta {
+                top: 150px; /* Posición inicial */
+                width: 92%;
+                height: auto;
+                max-height: 520px; /* Altura máxima para evitar scroll en pantallas pequeñas */
+                padding: 20px 15px;
+                overflow-y: hidden; /* Ocultar scroll si es posible */
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            .contenedor-sobre.abierto .carta {
+                top: 0; /* Sube completamente */
+            }
+
+            /* Reducción general de tamaños de fuente */
+            .carta-header {
+                font-size: 0.7em;
+                margin-bottom: 10px;
+            }
+
+            .carta-destinatario {
+                font-size: 1em;
+                margin-bottom: 10px;
+            }
+
+            .carta-cuerpo {
+                font-size: 0.85em; /* Letra más pequeña */
+                line-height: 1.4;
+                margin-bottom: 15px;
+            }
+
+            .carta-cuerpo p {
+                margin-bottom: 8px;
+            }
+
+            .carta-pregunta {
+                font-size: 1em;
+                margin: 10px 0;
+                padding: 8px;
+            }
+
+            .botones {
+                margin-top: 10px;
+                gap: 10px;
+            }
+
+            button {
+                padding: 8px 20px;
+                font-size: 0.9em;
+            }
+
+            .carta-firma {
+                margin-top: 15px;
+                font-size: 0.9em;
+            }
+
+            .astromelia {
+                font-size: 1.5em;
+                bottom: 10px;
+                right: 10px;
+            }
+
+            .sobre-sello {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5em;
+                top: 10px;
+                right: 10px;
+            }
+            
+            .nombre-destinatario {
+                font-size: 1.2em;
+            }
+        }
     </style>
 </head>
 
@@ -316,10 +420,6 @@
 
                     .
                 </p>
-            </div>
-
-            <div class="carta-pregunta">
-                ¿Aceptarías salir conmigo?
             </div>
 
             <div class="botones">
